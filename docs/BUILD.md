@@ -7,10 +7,17 @@
 | Node.js | 24.x（仅用于 `node --check` 和 `node --test`） |
 | Python | 3.13（conda，装 paramiko 用于部署脚本） |
 | JDK | 21（`C:\Program Files\Java\jdk-21.0.11`） |
-| Android SDK | `%LOCALAPPDATA%\Android\Sdk`，含 platform-tools、platforms;android-35、build-tools;35.0.0 |
+| Android SDK | 默认 `%LOCALAPPDATA%\Android\Sdk`；可用环境变量 `ANDROID_SDK_ROOT` 或 `ANDROID_HOME` 指向其他磁盘（如 `D:\SDK`），需含 platform-tools、platforms;android-35、build-tools;35.0.0 |
 | 部署依赖 | `python -m pip install paramiko` |
 
 首次安装 Android SDK：`python tools/install_android_sdk.py`（从 Google 官方仓库下载，带断点续传/重试；国内网络不稳时会自动重试）。
+
+不想装到 C 盘时，先指定 SDK 目录再安装（构建脚本会优先读取环境变量）：
+
+```powershell
+python tools\install_android_sdk.py --sdk-dir D:\SDK
+# 或者：set ANDROID_HOME=D:\SDK 后，后续构建自动使用它
+```
 
 ## 2. 本地开发
 

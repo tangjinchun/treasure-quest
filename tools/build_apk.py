@@ -40,7 +40,11 @@ WEB_DIR = os.environ.get("TQ_WEB_DIR") or os.path.join(PROJECT_ROOT, "web")
 DIST_DIR = os.path.join(PROJECT_ROOT, "dist")
 WORK_DIR = os.path.join(ANDROID_DIR, "build", "manual")
 
-SDK = os.environ.get("ANDROID_SDK_ROOT") or os.path.join(os.environ["LOCALAPPDATA"], "Android", "Sdk")
+SDK = (
+    os.environ.get("ANDROID_SDK_ROOT")
+    or os.environ.get("ANDROID_HOME")
+    or os.path.join(os.environ.get("LOCALAPPDATA", os.path.expanduser("~")), "Android", "Sdk")
+)
 BUILD_TOOLS = os.path.join(SDK, "build-tools", "35.0.0")
 ANDROID_JAR = os.path.join(SDK, "platforms", "android-35", "android.jar")
 AAPT2 = os.path.join(BUILD_TOOLS, "aapt2.exe")
