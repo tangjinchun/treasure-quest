@@ -33,11 +33,23 @@
 |---|---|
 | 手机 | Xiaomi 15 Pro，Android 16 |
 | 下载并侧载 APK | ✅ 成功 |
-| 首次启动 + 登录 admin | ✅ 成功 |
+| 首次启动 + 登录 admin | ✅ 成功（服务器日志记录手机登录，14:16） |
 | 触屏游玩体验 | ✅ 用户反馈「体验很棒」 |
 | APP 内检查更新 → 下载 → 重启生效（v1→v2） | ⏳ 待用户体验后确认 |
 
-## 4. 说明
+## 4. 开源发布
 
-- 测试环境为作者自建服务器（详见 `docs/DEPLOY.md`；仓库中 IP 等已用占位符替换）。
+| 项 | 值 |
+|---|---|
+| GitHub 公共仓库 | `https://github.com/tangjinchun/treasure-quest` |
+| 在线试玩（GitHub Pages） | `https://tangjinchun.github.io/treasure-quest/` |
+| Release v0.1.0（含 APK） | `https://github.com/tangjinchun/treasure-quest/releases/tag/v0.1.0` |
+| CI（游戏 + 后端测试） | GitHub Actions 通过 |
+| Pages 部署 | GitHub Actions 通过，公网可访问且浏览器验收 14/14 通过（登录、游玩、设置） |
+| License | MIT |
+
+## 5. 说明
+
+- 测试环境为作者自建服务器（详见 `docs/DEPLOY.md`；仓库中服务器 IP、SSH、内部服务信息已用占位符替换）。
+- 手机安装/登录已由用户真机验证；APP 内 OTA 升级（v1→v2）待用户操作后补充记录。
 - APK 为 debug 签名，仅用于个人测试分发。

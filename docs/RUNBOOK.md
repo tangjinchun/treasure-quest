@@ -22,6 +22,9 @@ journalctl -u treasure-server -n 100 --no-pager
 curl -s http://172.17.0.1:3001/api/health
 curl -s https://<YOUR_DOMAIN>/treasure/api/health
 
+# 状态汇总（health + 版本清单 + 下载/登录统计）
+python tools/server_status.py --base https://<YOUR_DOMAIN>/treasure --admin-token <token>
+
 # nginx 校验与重载（容器部署示例）
 docker exec nginx nginx -t && docker exec nginx nginx -s reload
 
