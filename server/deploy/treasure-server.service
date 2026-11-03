@@ -1,0 +1,23 @@
+[Unit]
+Description=Treasure Quest backend (content OTA + login API)
+Documentation=file:/data/treasure/README.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=treasure
+Group=treasure
+WorkingDirectory=/data/treasure
+EnvironmentFile=/data/treasure/treasure.env
+ExecStart=/usr/bin/python3 /data/treasure/server.py
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=10
+# 日志写 journald（journalctl -u treasure-server -f 查看）
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=treasure-server
+
+[Install]
+WantedBy=multi-user.target

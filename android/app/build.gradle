@@ -1,0 +1,39 @@
+// =============================================================================
+// 仅用于 Android Studio 打开 / 浏览工程；正式构建以 tools/build_apk.py 为准。
+// 本模块零第三方依赖（无 AndroidX、无 support 库）。
+// assets/web 由构建脚本从项目根 web/ 复制；IDE 打开时若为空只影响直接 Run。
+// =============================================================================
+
+apply plugin: 'com.android.application'
+
+android {
+    namespace 'cn.zzysjqr.treasurequest'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'cn.zzysjqr.treasurequest'
+        minSdk 26
+        targetSdk 35
+        versionCode 1
+        versionName '0.1.0'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lint {
+        abortOnError false
+    }
+}
+
+dependencies {
+    // 无任何第三方依赖：保持 APK 可被 aapt2/javac/d8 手动链直接构建。
+}

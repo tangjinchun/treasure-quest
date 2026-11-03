@@ -1,0 +1,35 @@
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# IDE
+.idea/
+*.iml
+.vscode/
+android/local.properties
+
+# Python
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# Local tooling / secrets / build cache
+.tooling/
+*.keystore
+*.jks
+
+# Build outputs
+dist/
+android/build/
+android/app/build/
+android/.gradle/
+android/app/src/main/assets/web/
+
+# Runtime data (server-side generated)
+server/data/stats.jsonl
+server/data/updates/*.zip
+server/data/apk/*.apk
+server/data/*.bak-*

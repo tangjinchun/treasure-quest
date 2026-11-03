@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Game & backend tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Game logic / map tests
+        run: node --test tests/game/
+
+      - name: Web bundle validation
+        run: python3 tools/validate_web.py
+
+      - name: Backend unit tests
+        run: python3 -m unittest discover -s server/tests -v

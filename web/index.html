@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0f1a">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- 自动化测试探测标记（由 boot.js 补充可读状态） -->
+  <title data-i18n="appTitle">寻宝奇兵</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-screen="boot">
+
+  <!-- 背景：深色渐变 + 星点 + 雾气（纯 CSS，无外部图片） -->
+  <div class="app-bg" aria-hidden="true">
+    <div class="bg-stars"></div>
+    <div class="bg-glow bg-glow-a"></div>
+    <div class="bg-glow bg-glow-b"></div>
+    <div class="bg-fog"></div>
+  </div>
+
+  <main id="screens" class="screens">
+
+    <!-- ============ 启动 / 加载 ============ -->
+    <section class="screen screen-boot" id="screen-boot" data-screen="boot" data-testid="screen-boot">
+      <div class="boot">
+        <div class="brand">
+          <div class="brand-emblem" aria-hidden="true"><span></span></div>
+          <h1 class="brand-title" data-i18n="appTitle"></h1>
+          <p class="brand-sub" data-i18n="appSlogan"></p>
+        </div>
+        <div class="boot-progress">
+          <div class="bar bar-gold"><i id="boot-bar-fill"></i></div>
+          <p class="boot-status" id="boot-status"></p>
+        </div>
+        <p class="version-line" id="boot-version"></p>
+      </div>
+    </section>
+
+    <!-- ============ 登录 ============ -->
+    <section class="screen screen-login" id="screen-login" data-screen="login" data-testid="screen-login">
+      <div class="panel panel-auth">
+        <div class="panel-head">
+          <h1 class="brand-title small" data-i18n="appTitle"></h1>
+          <p class="brand-sub" data-i18n="loginSubtitle"></p>
+        </div>
+        <form class="form" id="login-form" novalidate>
+          <label class="field">
+            <span class="field-label" data-i18n="loginUserLabel"></span>
+            <input class="input" id="login-username" type="text" inputmode="text" maxlength="32"
+                   autocomplete="username" autocapitalize="off" spellcheck="false"
+                   data-testid="username-input"
+                   data-i18n-placeholder="loginUserPlaceholder" data-i18n-aria-label="loginUserLabel">
+          </label>
+          <label class="field">
+            <span class="field-label" data-i18n="loginPasswordLabel"></span>
+            <input class="input" id="login-password" type="password" maxlength="64"
+                   autocomplete="current-password" data-testid="password-input"
+                   data-i18n-placeholder="loginPasswordPlaceholder" data-i18n-aria-label="loginPasswordLabel">
+          </label>
+          <p class="form-error" id="login-error" role="alert"></p>
+          <button class="btn btn-primary btn-block" id="btn-login" type="submit"
+                  data-testid="login-submit" data-i18n="loginSubmit"></button>
+          <button class="btn btn-ghost btn-block" id="btn-guest" type="button"
+                  data-testid="guest-button" data-i18n="loginGuest"></button>
+        </form>
+        <p class="tip" id="login-hint" data-testid="login-hint" data-i18n="loginTestTip"></p>
+        <p class="tip dim" data-i18n="loginGuestTip"></p>
+        <p class="version-line" id="login-version"></p>
+      </div>
+    </section>
+
+    <!-- ============ 主菜单 ============ -->
+    <section class="screen screen-menu" id="screen-menu" data-screen="menu" data-testid="screen-menu">
+      <div class="panel panel-menu">
+        <header class="menu-head">
+          <div class="menu-brand">
+            <h1 class="brand-title" data-i18n="appTitle"></h1>
+            <p class="menu-welcome" id="menu-welcome"></p>
+          </div>
+          <button class="btn btn-ghost btn-sm" id="btn-logout" type="button"
+                  data-testid="btn-logout" data-i18n="menuLogout"></button>
+        </header>
+        <div class="menu-progress">
+          <p class="progress-label" id="menu-progress-text"></p>
+          <div class="bar bar-gold"><i id="menu-progress-fill"></i></div>
+        </div>
+        <div class="menu-actions">
+          <button class="btn btn-primary btn-xl" id="btn-play" type="button"
+                  data-testid="btn-start" data-i18n="menuPlay"></button>
+          <button class="btn btn-ghost btn-xl" id="btn-levels" type="button"
+                  data-testid="btn-levels" data-i18n="menuLevels"></button>
+          <button class="btn btn-ghost btn-xl" id="btn-menu-settings" type="button"
+                  data-testid="btn-settings">
+            <span data-i18n="menuSettings"></span>
+            <i class="badge-dot" id="menu-settings-dot" aria-hidden="true" hidden></i>
+          </button>
+        </div>
+        <footer class="menu-foot">
+          <p class="version-line" id="menu-version"></p>
+        </footer>
+      </div>
+    </section>
+
+    <!-- ============ 选关 ============ -->
+    <section class="screen screen-levels" id="screen-levels" data-screen="levels" data-testid="screen-levels">
+      <div class="panel panel-wide">
+        <header class="page-head">
+          <button class="btn-icon" id="btn-levels-back" type="button"
+                  data-testid="btn-back" data-i18n-aria-label="commonBack">
+            <span aria-hidden="true">←</span>
+          </button>
+          <h2 class="page-title" data-i18n="levelsTitle"></h2>
+          <span class="page-side" id="levels-progress"></span>
+        </header>
+        <div class="level-grid" id="level-grid"></div>
+        <p class="tip dim center" data-i18n="levelsTip"></p>
+      </div>
+    </section>
+
+    <!-- ============ 设置 ============ -->
+    <section class="screen screen-settings" id="screen-settings" data-screen="settings" data-testid="screen-settings">
+      <div class="panel panel-wide">
+        <header class="page-head">
+          <button class="btn-icon" id="btn-settings-back" type="button"
+                  data-i18n-aria-label="commonBack">
+            <span aria-hidden="true">←</span>
+          </button>
+          <h2 class="page-title" data-i18n="settingsTitle"></h2>
+          <span class="page-side"></span>
+        </header>
+
+        <div class="settings-group">
+          <div class="setting-row">
+            <div class="setting-label">
+              <span data-i18n="settingsSound"></span>
+              <small data-i18n="settingsSoundDesc"></small>
+            </div>
+            <button class="switch" id="switch-sound" type="button" role="switch" aria-checked="true"
+                    data-testid="btn-sound" data-i18n-aria-label="settingsSound">
+              <i></i>
+            </button>
+          </div>
+          <div class="setting-row">
+            <div class="setting-label">
+              <span data-i18n="settingsResetSave"></span>
+              <small data-i18n="settingsResetSaveDesc"></small>
+            </div>
+            <button class="btn btn-danger-ghost btn-sm" id="btn-reset-save" type="button"
+                    data-testid="btn-reset-save" data-i18n="settingsResetSaveBtn"></button>
+          </div>
+        </div>
+
+        <div class="settings-group" id="settings-version-group">
+          <h3 class="group-title" data-i18n="settingsVersionTitle"></h3>
+          <div class="version-row">
+            <span class="version-label" data-i18n="settingsContentVersion"></span>
+            <span class="version-value" id="settings-content-version" data-testid="settings-content-version">--</span>
+          </div>
+          <div class="version-row">
+            <span class="version-label" data-i18n="settingsBuiltinVersion"></span>
+            <span class="version-value" id="settings-builtin-version" data-testid="settings-shell-version">--</span>
+          </div>
+          <div class="version-row">
+            <span class="version-label" data-i18n="settingsRuntime"></span>
+            <span class="version-value" id="settings-runtime" data-testid="settings-runtime">--</span>
+          </div>
+
+          <div class="update-actions">
+            <button class="btn btn-primary" id="btn-check-update" type="button"
+                    data-testid="btn-check-update">
+              <span data-i18n="settingsCheckUpdate"></span>
+              <i class="badge-dot" id="settings-update-dot" aria-hidden="true" hidden></i>
+            </button>
+            <span class="update-status" id="settings-update-status" data-testid="update-status"></span>
+          </div>
+          <div class="progress" id="update-progress-wrap" data-testid="update-progress" hidden>
+            <div class="bar"><i id="update-progress-bar"></i></div>
+            <p class="progress-text" id="update-progress-text"></p>
+          </div>
+          <p class="tip dim" id="settings-update-hint"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 游戏层（canvas 16:9 居中，HUD 由 core 绘制） ============ -->
+    <section class="screen screen-game" id="screen-game" data-screen="game" data-testid="screen-game">
+      <div class="game-stage" id="game-stage">
+        <canvas id="game-canvas" width="960" height="540"></canvas>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ 暂停覆盖层 ============ -->
+  <div class="overlay" id="overlay-pause" data-testid="pause-overlay" hidden>
+    <div class="overlay-card">
+      <h2 class="overlay-title" data-i18n="gamePause"></h2>
+      <p class="overlay-desc" data-i18n="gamePauseDesc"></p>
+      <div class="overlay-actions">
+        <button class="btn btn-primary btn-block" id="btn-resume" type="button"
+                data-testid="btn-resume" data-i18n="gameResume"></button>
+        <button class="btn btn-ghost btn-block" id="btn-pause-restart" type="button"
+                data-testid="btn-restart-level" data-i18n="gameRestart"></button>
+        <button class="btn btn-ghost btn-block" id="btn-pause-menu" type="button"
+                data-testid="btn-quit-to-menu" data-i18n="gameBackMenu"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 死亡覆盖层 ============ -->
+  <div class="overlay" id="overlay-death" data-testid="death-overlay" hidden>
+    <div class="overlay-card">
+      <h2 class="overlay-title danger" data-i18n="deathTitle"></h2>
+      <p class="overlay-desc" id="death-desc"></p>
+      <div class="overlay-actions">
+        <button class="btn btn-primary btn-block" id="btn-death-retry" type="button"
+                data-testid="btn-retry" data-i18n="deathRetry"></button>
+        <button class="btn btn-ghost btn-block" id="btn-death-menu" type="button"
+                data-testid="btn-death-menu" data-i18n="gameBackMenu"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 通关覆盖层 ============ -->
+  <div class="overlay" id="overlay-complete" data-testid="level-complete-overlay" hidden>
+    <div class="overlay-card">
+      <h2 class="overlay-title gold" data-i18n="completeTitle"></h2>
+      <p class="overlay-desc" id="complete-desc"></p>
+      <div class="stats" id="complete-stats"></div>
+      <div class="overlay-actions">
+        <button class="btn btn-primary btn-block" id="btn-next-level" type="button"
+                data-testid="btn-next-level" data-i18n="completeNext"></button>
+        <button class="btn btn-ghost btn-block" id="btn-replay-level" type="button"
+                data-testid="btn-replay-level" data-i18n="completeReplay"></button>
+        <button class="btn btn-ghost btn-block" id="btn-complete-menu" type="button"
+                data-testid="btn-complete-menu" data-i18n="completeLast"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 更新弹窗（APP / 浏览器演示共用） ============ -->
+  <div class="modal" id="modal-update" data-testid="update-dialog" hidden role="dialog"
+       aria-modal="true" aria-labelledby="update-title">
+    <div class="modal-mask" id="modal-update-mask"></div>
+    <div class="modal-card">
+      <h2 class="modal-title" id="update-title" data-i18n="updateTitle"></h2>
+      <p class="modal-version" id="update-version"></p>
+      <p class="modal-size" id="update-size"></p>
+      <h3 class="modal-subtitle" data-i18n="updateNotesTitle"></h3>
+      <p class="modal-notes" id="update-notes" data-testid="update-notes"></p>
+      <div class="progress" id="update-modal-progress" data-testid="update-progress-modal" hidden>
+        <div class="bar"><i id="update-modal-bar"></i></div>
+        <p class="progress-text" id="update-modal-status"></p>
+      </div>
+      <p class="modal-error" id="update-modal-error" hidden></p>
+      <p class="modal-hint" id="update-modal-hint"></p>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="btn-update-download" type="button"
+                data-testid="btn-download-update" data-i18n="updateDownload"></button>
+        <button class="btn btn-ghost" id="btn-update-later" type="button"
+                data-testid="btn-update-later" data-i18n="updateLater"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 轻提示 ============ -->
+  <div class="toast-wrap" id="toast-wrap" aria-live="polite"></div>
+
+  <!-- 脚本加载顺序固定（docs/GAMEDESIGN.md 5.1）：core 6 个 → shell 4 个 -->
+  <script src="js/core/util.js"></script>
+  <script src="js/core/audio.js"></script>
+  <script src="js/core/input.js"></script>
+  <script src="js/core/graphics.js"></script>
+  <script src="js/core/level_data.js"></script>
+  <script src="js/core/game.js"></script>
+  <script src="js/shell/save.js"></script>
+  <script src="js/shell/net.js"></script>
+  <script src="js/shell/ui.js"></script>
+  <script src="js/shell/boot.js"></script>
+</body>
+</html>

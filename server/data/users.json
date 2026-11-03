@@ -1,0 +1,11 @@
+{
+  "users": [
+    {
+      "username": "admin",
+      "salt": "8fd1c4d055de3008b0b6c789f64cedd8",
+      "passwordSha256": "a5812458946842c4181e9a0dde14c867c9b6a0cba21f801b69b2e92f8f7b0527",
+      "displayName": "测试玩家",
+      "role": "admin"
+    }
+  ]
+}
