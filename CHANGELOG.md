@@ -24,5 +24,6 @@
 
 ### 测试与文档
 - 37 个 Node 游戏逻辑测试、37 个 Python 后端接口测试、浏览器 UI 自动化
+- **Android 15 模拟器端到端 OTA 实测通过**：真实 APK（内置 v1）连接真实服务器 → 发现 v2 → 下载 / sha256 校验 / 解压 → 重启生效（contentVersion=2、4 个关卡）
 - 架构 / API / OTA / 游戏设计 / 安装 / 构建 / 部署 / 运维 / 测试计划文档
-- GitHub Actions CI
+- GitHub Actions CI、GitHub Pages 在线试玩、MIT License

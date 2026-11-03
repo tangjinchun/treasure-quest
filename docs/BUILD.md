@@ -75,6 +75,16 @@ python tools\build_apk.py
 
 版本来源：`android/app/src/main/AndroidManifest.xml` 的 `android:versionCode/versionName`。改原生壳才需要递增；纯内容更新只递增 contentVersion。
 
+如需打一个「内置指定内容版本」的 APK（例如 OTA 升级测试：内置 v1、服务器已发布 v2）：
+
+```powershell
+# zip 根即 web 根
+Expand-Archive dist\treasure-content-1.zip -DestinationPath .tooling\web-v1
+$env:TQ_WEB_DIR = ".tooling\web-v1"
+python tools\build_apk.py
+Remove-Item Env:\TQ_WEB_DIR
+```
+
 ## 6. 构建产物一览
 
 | 产物 | 用途 |

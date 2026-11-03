@@ -3,6 +3,7 @@ package cn.zzysjqr.treasurequest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -111,6 +112,11 @@ public class MainActivity extends Activity implements OtaManager.EventSink, Bund
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        // 测试构建：在创建 WebView 之前开启远程调试（CDP），供模拟器/真机自动化验证 OTA。
+        // 当前 Manifest 未声明 android:debuggable，FLAG_DEBUGGABLE 为 false，
+        // 因此由 AppConfig.ENABLE_WEBVIEW_REMOTE_DEBUG 兜底开启；正式发布前改 false。
+        enableWebViewRemoteDebugging();
+
         buildViews();
         otaManager = new OtaManager(this, this);
         otaManager.initialize();
@@ -118,6 +124,26 @@ public class MainActivity extends Activity implements OtaManager.EventSink, Bund
         loadMainPage();
 
         mainHandler.postDelayed(silentCheckRunnable, AppConfig.SILENT_CHECK_DELAY_MS);
+    }
+
+    /**
+     * 开启 WebView 远程调试（Chrome DevTools Protocol），必须在创建 WebView 之前调用。
+     *
+     * <p>判定：测试构建由 {@link AppConfig#ENABLE_WEBVIEW_REMOTE_DEBUG} 无条件开启；
+     * 若 APK 在 Manifest 声明 {@code android:debuggable="true"}，FLAG_DEBUGGABLE 也会自动开启。
+     * 正式发布前把该常量改为 false（仅保留 debuggable 判断）。
+     */
+    private void enableWebViewRemoteDebugging() {
+        boolean debuggable = (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+        if (!AppConfig.ENABLE_WEBVIEW_REMOTE_DEBUG && !debuggable) {
+            return;
+        }
+        try {
+            WebView.setWebContentsDebuggingEnabled(true);
+            Log.i(TAG, "WebView remote debugging enabled (debuggable=" + debuggable + ")");
+        } catch (RuntimeException e) {
+            Log.w(TAG, "enable WebView remote debugging failed", e);
+        }
     }
 
     @Override

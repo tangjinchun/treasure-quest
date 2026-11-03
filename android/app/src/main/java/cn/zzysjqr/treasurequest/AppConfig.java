@@ -84,6 +84,16 @@ public final class AppConfig {
     public static final String PREF_DEVICE_ID = "device_id";
 
     // ---------------------------------------------------------------------
+    // 调试开关（v1 测试构建；正式发布前需关闭）
+    // ---------------------------------------------------------------------
+    /**
+     * 是否开启 WebView 远程调试（Chrome DevTools Protocol）。
+     * 仅用于测试构建的模拟器/真机自动化验证（如调用 TQNative.checkUpdate 等）；
+     * 正式发布包请改为 false（或依赖 Manifest android:debuggable=false 的兜底判断）。
+     */
+    public static final boolean ENABLE_WEBVIEW_REMOTE_DEBUG = true;
+
+    // ---------------------------------------------------------------------
     // JS 桥
     // ---------------------------------------------------------------------
     public static final String JS_BRIDGE_NAME = "TQNative";

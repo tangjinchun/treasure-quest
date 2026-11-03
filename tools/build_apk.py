@@ -34,7 +34,9 @@ MANIFEST = os.path.join(MAIN_DIR, "AndroidManifest.xml")
 JAVA_SRC = os.path.join(MAIN_DIR, "java")
 RES_DIR = os.path.join(MAIN_DIR, "res")
 ASSETS_DIR = os.path.join(MAIN_DIR, "assets")
-WEB_DIR = os.path.join(PROJECT_ROOT, "web")
+# Allow bundling a different web snapshot (e.g. an older content version for OTA testing):
+#   TQ_WEB_DIR=... python tools/build_apk.py
+WEB_DIR = os.environ.get("TQ_WEB_DIR") or os.path.join(PROJECT_ROOT, "web")
 DIST_DIR = os.path.join(PROJECT_ROOT, "dist")
 WORK_DIR = os.path.join(ANDROID_DIR, "build", "manual")
 

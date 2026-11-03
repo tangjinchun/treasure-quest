@@ -35,9 +35,30 @@
 | 下载并侧载 APK | ✅ 成功 |
 | 首次启动 + 登录 admin | ✅ 成功（服务器日志记录手机登录，14:16） |
 | 触屏游玩体验 | ✅ 用户反馈「体验很棒」 |
-| APP 内检查更新 → 下载 → 重启生效（v1→v2） | ⏳ 待用户体验后确认 |
+| APP 内检查更新 → 下载 → 重启生效（v1→v2） | ✅ 已在 Android 15 模拟器完成全流程（见第 4 节）；用户手机可随时复验 |
 
-## 4. 开源发布
+## 4. 模拟器端 OTA 全流程实测（Android 15，真实 APK + 真实服务器）
+
+为验证 Java 原生 OTA 管理器，在 Android 15（API 35，x86_64）模拟器上安装**只内置 v1 内容**的 APK，连接真实服务器 `https://zzysjqr.cn/treasure`，通过 WebView 远程调试调用 JS 桥驱动：
+
+| 步骤 | 实测结果 |
+|---|---|
+| 启动 | `getState()`：`bundledContentVersion=1, contentVersion=1, contentDir=assets` |
+| 检查更新 | 收到 `ota_available`：version=2、size=71219、notes 正确 |
+| 下载 | `ota_progress` 11% → 100%，`received=71219` |
+| 校验/解压 | `ota_progress` verify/unzip 各 100%，无错误 |
+| 完成 | `ota_done`：contentVersion=2、restartRequired=true |
+| 重启生效 | 重启 WebView 后 `getState()`：`contentVersion=2, contentDir=files/web/2, bundledContentVersion=1`；`TQ.Game.getLevelCount()=4` |
+| 文件落盘 | `/data/data/cn.zzysjqr.treasurequest/files/ota/ota_state.json` = `{"contentVersion":2,"activeDir":"files/web/2","previousVersion":0}`；`files/web/2/` 内含 `bundle.json/index.html/js/css/version.json` |
+| 服务端记录 | `/api/stats` 中 `treasure-content-2.zip` 下载次数增加（14:36 两次） |
+
+截图（OTA 后登录页显示「内容版本 v2 · 安卓 APP」）：
+
+![OTA 验证](screenshots/ota-verified.png)
+
+> 说明：本次测试使用测试构建（`AppConfig.ENABLE_WEBVIEW_REMOTE_DEBUG=true` 便于自动化）；正式发布前把该常量改为 `false` 即可关闭 WebView 远程调试。
+
+## 5. 开源发布
 
 | 项 | 值 |
 |---|---|
@@ -48,8 +69,8 @@
 | Pages 部署 | GitHub Actions 通过，公网可访问且浏览器验收 14/14 通过（登录、游玩、设置） |
 | License | MIT |
 
-## 5. 说明
+## 6. 说明
 
 - 测试环境为作者自建服务器（详见 `docs/DEPLOY.md`；仓库中服务器 IP、SSH、内部服务信息已用占位符替换）。
-- 手机安装/登录已由用户真机验证；APP 内 OTA 升级（v1→v2）待用户操作后补充记录。
+- 手机安装/登录已由用户真机验证；APP 内 OTA 升级（v1→v2）已在 Android 15 模拟器完成端到端实测（见第 4 节），用户手机可随时复验。
 - APK 为 debug 签名，仅用于个人测试分发。

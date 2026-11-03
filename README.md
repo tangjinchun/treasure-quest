@@ -8,11 +8,11 @@
 ![Java](https://img.shields.io/badge/Java-8-orange.svg)
 ![No dependencies](https://img.shields.io/badge/dependencies-none-blue.svg)
 
-**手机实测**：小米 15 Pro（Android 16），侧载安装、登录、触屏游玩正常。
+**已实测**：小米 15 Pro（Android 16）侧载安装、登录、触屏游玩正常；Android 15 模拟器端到端验证「检查更新 → 下载 → sha256 校验 → 重启生效」内容 OTA 全流程（真实 APK + 真实服务器）。
 
-| 登录页 | 游戏画面 | 设置 / 更新 |
-|---|---|---|
-| ![登录](docs/screenshots/login.png) | ![游戏](docs/screenshots/gameplay.png) | ![设置](docs/screenshots/settings.png) |
+| 登录页 | 游戏画面 | 设置 / 更新 | OTA 更新后 |
+|---|---|---|---|
+| ![登录](docs/screenshots/login.png) | ![游戏](docs/screenshots/gameplay.png) | ![设置](docs/screenshots/settings.png) | ![OTA](docs/screenshots/ota-verified.png) |
 
 ## 🎮 在线体验 / 下载
 
@@ -161,6 +161,7 @@ python tools/validate_web.py                       # web 资源完整性/JS 语�
 - debug 签名 APK 仅用于个人测试分发，**不要对外发布**；正式发布需生成 release keystore 并妥善备份。
 - 当前未申请软著/版号，不上架任何应用商店；仅供个人学习与测试。
 - 演示服务器为作者自建测试服，可能随时关闭；请按文档部署到你自己的服务器。
+- 测试构建默认开启 WebView 远程调试（`AppConfig.ENABLE_WEBVIEW_REMOTE_DEBUG = true`，用于自动化验证）；正式发布前改为 `false`。
 
 ## 📄 License
 
